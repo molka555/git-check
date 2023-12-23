@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Shopping Cart</title>
+  <link rel="stylesheet" href="./styles2.css" />
+ 
+</head>
+<body>
+
+  <div id="cart">
+    <div class="item">
+      <span class="heart" onclick="toggleLike(this)">&#x2661;</span>
+      <span class="itemName">Item 1</span>
+      <button class="quantityBtn" onclick="adjustQuantity(this, -1)">-</button>
+      <span class="quantity">1</span>
+      <button class="quantityBtn" onclick="adjustQuantity(this, 1)">+</button>
+      <button class="deleteBtn" onclick="deleteItem(this)">Delete</button>
+      <span class="price">$10.00</span>
+    </div>
+
+    
+  </div>
+
+  <div id="total">Total: $10.00</div>
+
+  <script>
+    function toggleLike(heart) {
+      heart.style.color = (heart.style.color === 'red') ? '' : 'red';
+    }
+
+    function adjustQuantity(btn, change) {
+      var quantityElement = btn.parentNode.querySelector('.quantity');
+      var currentQuantity = parseInt(quantityElement.innerText);
+      var newQuantity = currentQuantity + change;
+
+      if (newQuantity >= 0) {
+        quantityElement.innerText = newQuantity;
+        updateTotal();
+      }
+    }
+
+    function deleteItem(btn) {
+      var item = btn.parentNode;
+      item.parentNode.removeChild(item);
+      updateTotal();
+    }
+
+    function updateTotal() {
+      var items = document.querySelectorAll('.item');
+      var total = 0;
+
+      items.forEach(function(item) {
+        var quantity = parseInt(item.querySelector('.quantity').innerText);
+        var price = parseFloat(item.querySelector('.price').innerText.substring(1));
+        total += quantity * price;
+      });
+
+      document.getElementById('total').innerText = 'Total: $' + total.toFixed(2);
+    }
+  </script>
+</body>
+</html>
